@@ -1,7 +1,9 @@
-from .base import Base
-from .account import Account
-from .loan import Loan
-from ..config.config import LC_API_VERSION
+import os
+
+from base import Base
+from account import Account
+from loan import Loan
+from config.config import LC_API_VERSION
 
 class LendingClubSession(Base):
     """
@@ -15,3 +17,7 @@ class LendingClubSession(Base):
         self._headers = {'Authorization' : api_key}
         self.account = Account(self.join_url(self._url, 'accounts', True), self._headers, investor_id)
         self.loan = Loan(self.join_url(self._url, 'loans', True), self._headers)
+
+    @classmethod
+    def from_environment_variables(cls):
+        return cls(os.environ['LC_API_KEY'], os.environ['LC_INVESTOR_ID'])

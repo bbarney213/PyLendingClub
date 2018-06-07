@@ -1,17 +1,8 @@
 import requests
+import os
 
-from ..config.config import LC_API_VERSION, LC_API_KEY, LC_INVESTOR_ID
-from ..session import LendingClubSession
-
-
-def test_api_version():
-    return LC_API_VERSION
-
-def test_api_key():
-    return LC_API_KEY
-
-def test_investor_id():
-    return LC_INVESTOR_ID
+from config.config import LC_API_VERSION
+from session import LendingClubSession
 
 def test_account_summary_keys():
     return [
@@ -57,10 +48,6 @@ def test_listed_loans_keys():
         'asOfDate', 'loans'
     ]
 
-def test_session():
-    return LendingClubSession(test_api_version(), test_api_key(), test_investor_id())
-
-
 def is_response(value):
     return isinstance(value, requests.Response)
 
@@ -76,7 +63,7 @@ def test_response(response, keys):
 
 
 def run_lc_tests():
-    session = test_session()
+    session = LendingClubSession.from_environment_variables()
 
     test_response(session.account.summary, test_account_summary_keys())
     test_response(session.account.available_cash, test_available_cash_keys())
