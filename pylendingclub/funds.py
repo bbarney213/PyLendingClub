@@ -1,4 +1,4 @@
-from resource import Resource
+from pylendingclub.resource import Resource
 
 class Funds(Resource):
     """

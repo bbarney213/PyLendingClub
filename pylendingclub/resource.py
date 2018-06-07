@@ -1,5 +1,5 @@
-from base import Base
-from request import GetRequest, PostRequest
+from pylendingclub.base import Base
+from pylendingclub.request import GetRequest, PostRequest
 
 class Resource(Base):
     """

@@ -1,10 +1,8 @@
 import requests
 import os
 
-#from pylendingclub.config.config import LC_API_VERSION
-from session import LendingClubSession
-
-LC_API_VERSION = 'v1'
+from pylendingclub.config import LC_API_VERSION
+from pylendingclub.session import LendingClubSession
 
 def test_account_summary_keys():
     return [

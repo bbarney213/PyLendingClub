@@ -1,5 +1,5 @@
-from resource import Resource
-from funds import Funds
+from pylendingclub.resource import Resource
+from pylendingclub.funds import Funds
 
 class Account(Resource):
     """
