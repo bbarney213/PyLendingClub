@@ -1,9 +1,9 @@
 import os
 
-from .base import Base
-from .account import Account
-from .loan import Loan
-from .config.config import LC_API_VERSION
+from base import Base
+from account import Account
+from loan import Loan
+from config import LC_API_VERSION
 
 class LendingClubSession(Base):
     """
