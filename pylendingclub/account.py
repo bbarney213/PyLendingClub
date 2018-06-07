@@ -1,5 +1,5 @@
-from resource import Resource
-from funds import Funds
+from .resource import Resource
+from .funds import Funds
 
 class Account(Resource):
     """

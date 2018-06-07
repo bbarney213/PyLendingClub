@@ -1,8 +1,8 @@
 import requests
 import os
 
-from config.config import LC_API_VERSION
-from session import LendingClubSession
+from .config.config import LC_API_VERSION
+from .session import LendingClubSession
 
 def test_account_summary_keys():
     return [

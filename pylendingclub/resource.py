@@ -1,5 +1,5 @@
-from base import Base
-from request import GetRequest, PostRequest
+from .base import Base
+from .request import GetRequest, PostRequest
 
 class Resource(Base):
     """
