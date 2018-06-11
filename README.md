@@ -1,11 +1,11 @@
 # PyLendingClub Wrapper
 
-##Description
+## Description
 
 A high-level API wrapper for the Lending Club API. See the API documentation here: https://www.lendingclub.com/developers/api-overview. The wrapper provides access to all of the methods within the API.
 
 
-##Getting Started
+## Getting Started
 To get started, download the package with pip:
 
 ```
@@ -28,9 +28,9 @@ from pylendingclub import Session
 session = Session.from_environment_variables()
 ```
 
-##Using the Session Object
+## Using the Session Object
 
-###Sessions and Responses
+### Sessions and Responses
 Calls to the API through the `Session` will return a [Response](http://docs.python-requests.org/en/master/api/#requests.Response) object. You can then work with this response as needed. If you just want the JSON data from the response, use the following syntax:
 
 ```
@@ -47,7 +47,7 @@ json_data = response.json()
 
 You can also chain the `.json()` call directly onto the property, or method, but this won't allow you to handle an error with the response without making a separate call to get the original response. Especially when working with the `POST` methods, it is recommended to store the response separate from the JSON, but it is not required.
 
-###Accessing Resources
+### Accessing Resources
 There are two primary resources available within the API. These are the `Account` and `Loan` resources. You can access them within the `Session` like so:
 
 ```
@@ -60,9 +60,9 @@ These two resources expose the sub-resources/services within the API. More on th
 **Remember, all of these services will return a `Response`.**
 
 
-###Account Resource
+### Account Resource
 
-####Account Summary
+#### Account Summary
 
 API Documentation: https://www.lendingclub.com/developers/summary
 
@@ -73,7 +73,7 @@ Syntax:
 account_summary = session.account.summary
 ```
 
-####Available Cash
+####A vailable Cash
 
 API Documentation: https://www.lendingclub.com/developers/available-cash
 
@@ -84,7 +84,7 @@ Syntax:
 available_cash = session.account.available_cash
 ```
 
-####Notes
+#### Notes
 
 API Documentation: https://www.lendingclub.com/developers/notes-owned
 
@@ -95,7 +95,7 @@ Syntax:
 notes = session.account.notes
 ```
 
-####Detailed Notes
+#### Detailed Notes
 
 API Documentation: https://www.lendingclub.com/developers/detailed-notes-owned
 
@@ -106,7 +106,7 @@ Syntax:
 detailed_notes = session.account.detailed_notes
 ```
 
-####Portfolios Owned
+#### Portfolios Owned
 
 API Documentation: https://www.lendingclub.com/developers/portfolios-owned
 
@@ -117,7 +117,7 @@ Syntax:
 portfolios_owned = session.account.portfolios_owned
 ```
 
-####Filters
+#### Filters
 
 API Documentation: https://www.lendingclub.com/developers/filters
 
@@ -128,7 +128,7 @@ Syntax:
 filters = session.account.filters
 ```
 
-####Create Portfolio
+#### Create Portfolio
 
 API Documentation: https://www.lendingclub.com/developers/create-portfolio
 
@@ -139,7 +139,7 @@ Syntax:
 create_portfolio = session.account.create_portfolio(portfolio_name, [portfolio_description])
 ```
 
-####Submit Order
+#### Submit Order
 
 API Documentation: https://www.lendingclub.com/developers/submit-order
 
@@ -152,9 +152,9 @@ Syntax:
 submit_order = session.account.submit_order(loan_id, requested_amount, [portfolio_id])
 ```
 
-###Account/Funds
+### Account/Funds
 
-####Pending Transfers
+#### Pending Transfers
 
 API Documentation: https://www.lendingclub.com/developers/pending-transfers
 
@@ -165,7 +165,7 @@ Syntax:
 pending_transfers = account.funds.pending
 ```
 
-####Add
+#### Add
 
 API Documentation: https://www.lendingclub.com/developers/add-funds
 
@@ -182,7 +182,7 @@ Syntax:
 add_funds = session.account.funds.add(amount, transfer_frequency, [start_date], [end_date])
 ```
 
-####Withdraw
+#### Withdraw
 
 API Documentation: https://www.lendingclub.com/developers/add-funds
 
@@ -193,7 +193,7 @@ Syntax:
 withdraw_funds = session.account.funds.withdraw(amount)
 ```
 
-####Cancel Transfer
+#### Cancel Transfer
 
 API Documentation: https://www.lendingclub.com/developers/cancel-transfers
 
@@ -204,9 +204,9 @@ Syntax:
 cancel_transfer = session.account.funds.cancel(transfer_id)
 ```
 
-###Loan Resource
+### Loan Resource
 
-###Listed Loans
+### Listed Loans
 
 API Documentation: https://www.lendingclub.com/developers/listed-loans
 
