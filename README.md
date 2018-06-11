@@ -15,8 +15,8 @@ pip install pylendingclub
 Once the package is installed, you will need a Session object. You can create one directly, by passing your [api-key](https://www.lendingclub.com/account/profile.action) and [investor-id](https://www.lendingclub.com/account/summary.action).
 
 ```
-from pylendingclub import Session
-session = Session(api-key, investor-id)
+from pylendingclub.session import LendingClubSession
+session = LendingClubSession(api-key, investor-id)
 ```
 
 Alternatively, you can create environment variables for both of these values. Make sure they are created as 'LC_API_KEY' and 'LC_INVESTOR_ID'.
@@ -25,7 +25,7 @@ With environment variables set, you can create a `Session` with them like so:
 
 ```
 from pylendingclub import Session
-session = Session.from_environment_variables()
+session = LendingClubSession.from_environment_variables()
 ```
 
 ## Using the Session Object
