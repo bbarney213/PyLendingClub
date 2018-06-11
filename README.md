@@ -73,7 +73,7 @@ Syntax:
 account_summary = session.account.summary
 ```
 
-####A vailable Cash
+#### Available Cash
 
 API Documentation: https://www.lendingclub.com/developers/available-cash
 
