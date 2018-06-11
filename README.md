@@ -206,7 +206,7 @@ cancel_transfer = session.account.funds.cancel(transfer_id)
 
 ### Loan Resource
 
-### Listed Loans
+#### Listed Loans
 
 API Documentation: https://www.lendingclub.com/developers/listed-loans
 
