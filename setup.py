@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name = 'pylendingclub',
     packages = ['pylendingclub'],
-    version = 'v1.5',  # Ideally should be same as your GitHub release tag varsion
+    version = 'v1.7',  # Ideally should be same as your GitHub release tag version
     description = 'A Python wrapper for the Lending Club API.',
     author = 'Brandon Barney',
     author_email = 'brandon.barney213@yahoo.com',

@@ -1,5 +1,6 @@
 from pylendingclub.resource import Resource
 from pylendingclub.funds import Funds
+from pylendingclub.config import LC_MIN_NOTE_INVESTMENT, LC_INVESTMENT_DENOMINATION
 
 class Account(Resource):
     """
@@ -89,6 +90,33 @@ class Account(Resource):
 
         return self._create_portfolio.send(payload=payload)
 
+    def submit_orders(self, orders, portfolio_id=None):
+        """
+        Submits multiple orders in a single batch.
+
+        Takes a list of orders in the form:
+        [{ loanId : id,
+        requested_amount : amount,
+        portfolio_id : portfolio_id}, ...]
+        
+        Where loanId and requested_amount are required, and submits the orders
+        as a single request.
+
+        The POST request for the account/orders resource.
+
+        See: https://www.lendingclub.com/developers/submit-order
+        """
+        for order in orders:
+            if (order['requested_amount'] % LC_INVESTMENT_DENOMINATION) != 0:
+                raise ValueError('The requested amount must be a denomination of ${:,.2f}. Provided amount for loanId of {} is {}.'
+                                    .format(LC_INVESTMENT_DENOMINATION, order['loanId'], order['requested_amount']))
+
+        payload = {
+                    'aid' : self._investor_id,
+                    'orders' : orders
+        }
+        return self._submit_orders.send(payload=payload)
+
     def submit_order(self, loan_id, requested_amount, portfolio_id=None):
         """
         Submits an order for a note, and adds it to a portfolio if provided.
@@ -98,25 +126,20 @@ class Account(Resource):
 
         See: https://www.lendingclub.com/developers/submit-order
         """
-        if (requested_amount % 25) != 0:
-            raise ValueError('The requested amount must be a denomination of $25.00.')
 
         order = {
                     'loanId' : loan_id,
                     'requested_amount' : requested_amount
         }
-
         if portfolio_id:
             order['portfolioId'] = portfolio_id
 
-        payload = {
-                    'aid' : self._investor_id,
-                    'orders' :
-                    [
-                        order
-                    ]
-        }
-        return self._submit_order.send(payload=payload)
+        try:
+            submit_orders_response = self.submit_orders([order])
+        except ValueError e:
+            raise e
+
+        return submit_orders_response
 
     def __init__(self, url, headers, investor_id):
         self._investor_id = investor_id
@@ -135,4 +158,4 @@ class Account(Resource):
 
         #POST Requests
         self._create_portfolio = self._post_request('portfolios')
-        self._submit_order = self._post_request('orders')
+        self._submit_orders = self._post_request('orders')
