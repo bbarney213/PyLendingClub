@@ -87,7 +87,7 @@ class Account(Resource):
         if portfolio_description:
             payload['portfolioDescription'] = portfolio_description
 
-        return self._create_portfolio.send()
+        return self._create_portfolio.send(payload=payload)
 
     def submit_order(self, loan_id, requested_amount, portfolio_id=None):
         """
