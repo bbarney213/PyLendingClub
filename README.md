@@ -139,7 +139,7 @@ Syntax:
 create_portfolio = session.account.create_portfolio(portfolio_name, [portfolio_description])
 ```
 
-### Submit Orders
+#### Submit Orders
 
 API Documentation: https://www.lendingclub.com/developers/submit-order
 
