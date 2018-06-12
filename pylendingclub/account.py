@@ -97,7 +97,7 @@ class Account(Resource):
         Takes a list of orders in the form:
         [{ loanId : id,
         requestedAmount : amount,
-        portfolio_id : portfolio_id}, ...]
+        portfolioId : portfolioId}, ...]
 
         Where loanId and requestedAmount are required, and submits the orders
         as a single request.
