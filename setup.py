@@ -8,7 +8,7 @@ setup(
     author = 'Brandon Barney',
     author_email = 'brandon.barney213@yahoo.com',
     url = 'https://github.com/bbarney213/PyLendingClub-Wrapper',
-    download_url = 'https://github.com/bbarney213/PyLendingClub-Wrapper/archive/v1.3.tar.gz',
+    download_url = 'https://github.com/bbarney213/PyLendingClub-Wrapper/archive/v1.7.tar.gz',
     keywords = ['python', 'lendingclub'],
     classifiers = [],
 )
