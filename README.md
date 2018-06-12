@@ -139,6 +139,46 @@ Syntax:
 create_portfolio = session.account.create_portfolio(portfolio_name, [portfolio_description])
 ```
 
+### Submit Orders
+
+API Documentation: https://www.lendingclub.com/developers/submit-order
+
+Note:
+
+The orders must be a list of dicts in the format:
+```
+[
+  {
+    'loanId' : loan_id,
+    'requestedAmount' : amount,
+    'portfolioId' : portfolio_id
+  }
+]
+```
+
+Where loanId and requestedAmount are required, and requestedAmount must be a denomination of 25.
+
+For example:
+
+[
+  {
+    'loanId' : 1234,
+    'requestedAmount' : 25,
+  },
+  {
+    'loanId' : 1345,
+    'requestedAmount' : 50,
+    'portfolioId' : 12345
+  }
+]
+
+Method Type: POST
+
+Syntax:
+```
+submit_orders = session.account.submit_orders(orders)
+```
+
 #### Submit Order
 
 API Documentation: https://www.lendingclub.com/developers/submit-order
