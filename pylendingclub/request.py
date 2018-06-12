@@ -30,4 +30,4 @@ class PostRequest(Request):
     Sends POST requests.
     """
     def send(self, payload=None):
-        return requests.post(self._url, data=payload, headers=self._headers)
+        return requests.post(self._url, json=payload, headers=self._headers)
