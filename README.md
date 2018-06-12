@@ -156,7 +156,7 @@ The orders must be a list of dicts in the format:
 ]
 ```
 
-Where `loanId` and `equestedAmount` are required, and `requestedAmount` must be a denomination of 25.
+Where `loanId` and `requestedAmount` are required, and `requestedAmount` must be a denomination of 25.
 
 For example:
 
