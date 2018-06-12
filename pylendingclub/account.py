@@ -90,16 +90,16 @@ class Account(Resource):
 
         return self._create_portfolio.send(payload=payload)
 
-    def submit_orders(self, orders, portfolio_id=None):
+    def submit_orders(self, orders):
         """
         Submits multiple orders in a single batch.
 
         Takes a list of orders in the form:
         [{ loanId : id,
-        requested_amount : amount,
+        requestedAmount : amount,
         portfolio_id : portfolio_id}, ...]
-        
-        Where loanId and requested_amount are required, and submits the orders
+
+        Where loanId and requestedAmount are required, and submits the orders
         as a single request.
 
         The POST request for the account/orders resource.
@@ -107,14 +107,15 @@ class Account(Resource):
         See: https://www.lendingclub.com/developers/submit-order
         """
         for order in orders:
-            if (order['requested_amount'] % LC_INVESTMENT_DENOMINATION) != 0:
+            if (order['requestedAmount'] % LC_INVESTMENT_DENOMINATION) != 0:
                 raise ValueError('The requested amount must be a denomination of ${:,.2f}. Provided amount for loanId of {} is {}.'
-                                    .format(LC_INVESTMENT_DENOMINATION, order['loanId'], order['requested_amount']))
+                                    .format(LC_INVESTMENT_DENOMINATION, order['loanId'], order['requestedAmount']))
 
         payload = {
                     'aid' : self._investor_id,
                     'orders' : orders
         }
+
         return self._submit_orders.send(payload=payload)
 
     def submit_order(self, loan_id, requested_amount, portfolio_id=None):
@@ -136,7 +137,7 @@ class Account(Resource):
 
         try:
             submit_orders_response = self.submit_orders([order])
-        except ValueError e:
+        except ValueError as e:
             raise e
 
         return submit_orders_response
