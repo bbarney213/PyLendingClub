@@ -16,7 +16,7 @@ Once the package is installed, you will need a Session object. You can create on
 
 ```
 from pylendingclub.session import LendingClubSession
-session = LendingClubSession(api-key, investor-id)
+session = LendingClubSession(api_key, investor_id)
 ```
 
 Alternatively, you can create environment variables for both of these values. Make sure they are created as 'LC_API_KEY' and 'LC_INVESTOR_ID'.
