@@ -204,7 +204,7 @@ Method Type: GET
 
 Syntax:
 ```
-pending_transfers = account.funds.pending
+pending_transfers = session.account.funds.pending
 ```
 
 #### Add
