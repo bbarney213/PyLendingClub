@@ -16,7 +16,7 @@ Once the package is installed, you will need a Session object. You can create on
 
 ```
 from pylendingclub.session import LendingClubSession
-session = LendingClubSession(api-key, investor-id)
+session = LendingClubSession(api_key, investor_id)
 ```
 
 Alternatively, you can create environment variables for both of these values. Make sure they are created as 'LC_API_KEY' and 'LC_INVESTOR_ID'.
@@ -139,6 +139,48 @@ Syntax:
 create_portfolio = session.account.create_portfolio(portfolio_name, [portfolio_description])
 ```
 
+#### Submit Orders
+
+API Documentation: https://www.lendingclub.com/developers/submit-order
+
+Note:
+
+The orders must be a list of dicts in the format:
+```
+[
+  {
+    'loanId' : loan_id,
+    'requestedAmount' : amount,
+    'portfolioId' : portfolio_id
+  }
+]
+```
+
+Where `loanId` and `requestedAmount` are required, and `requestedAmount` must be a denomination of 25.
+
+For example:
+
+```
+[
+  {
+    'loanId' : 1234,
+    'requestedAmount' : 25,
+  },
+  {
+    'loanId' : 1345,
+    'requestedAmount' : 50,
+    'portfolioId' : 12345
+  }
+]
+```
+
+Method Type: POST
+
+Syntax:
+```
+submit_orders = session.account.submit_orders(orders)
+```
+
 #### Submit Order
 
 API Documentation: https://www.lendingclub.com/developers/submit-order
@@ -162,7 +204,7 @@ Method Type: GET
 
 Syntax:
 ```
-pending_transfers = account.funds.pending
+pending_transfers = session.account.funds.pending
 ```
 
 #### Add
