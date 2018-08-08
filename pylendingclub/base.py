@@ -1,3 +1,5 @@
+import pandas as pd
+
 class Base():
     """
     Provides basic functions for handling URL's when creating requests and resources.
