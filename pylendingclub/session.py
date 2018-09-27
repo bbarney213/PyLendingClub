@@ -26,7 +26,7 @@ class LendingClubSession(Base):
     def from_environment_variables(cls):
         return cls(os.environ['LC_API_KEY'], os.environ['LC_INVESTOR_ID'])
 
-class ExtendedLendingClubSession(ExtendedBase):     
+class ExtendedLendingClubSession(ExtendedBase):
     def _validate_amount(self, amount, denomination=25):
         if (amount % denomination) != 0:
             raise InvalidAmountError(amount, denomination)
@@ -44,27 +44,47 @@ class ExtendedLendingClubSession(ExtendedBase):
         if filter_dict:
             return filter_dict['id']
 
-    def _portfolio_by_name(self, name):
+    def _portfolio_id_by_name(self, name):
         portfolios_owned_response = self.session.account.portfolios_owned
         portfolios_data = portfolios_owned_response.json()['myPortfolios']
         filter_dict = self._dict_by_key_value_pair(portfolios_data, 'portfolioName', name)
         if filter_dict:
             return filter_dict['portfolioId']
 
-    def _listed_loans(self, filter_id=None):
+    def _listed_loans(self,
+                      filter_id=None,
+                      sort_fields={'loanAmount' : True,
+                                    'intRate' : False,
+                                    'empLength' : False}):
+
         listed_loans_response = self.session.loan.listed_loans(filter_id=filter_id)
         listed_loans_data = listed_loans_response.json()
 
         if 'loans' in listed_loans_data:
             loans_df = pd.DataFrame(listed_loans_data['loans'])
             loans_df['percentFunded'] = loans_df['fundedAmount']/loans_df['loanAmount']
-            loans_df = loans_df.sort_values(['annualInc', 'annualIncJoint', 'dti', 'dtiJoint', 'fundedAmount'],
-                         ascending=[False, False, True, True, False])
+
+            if isinstance(sort_fields, dict):
+                fields = []
+                directions = []
+                for field, direction in sort_fields.items():
+                    fields.append(field)
+
+                    if isinstance(direction, (bool, int)):
+                        directions.append(bool(direction))
+                    else:
+                        directions.append(False)
+
+                    loans_df = loans_df.sort_values(fields, ascending=directions)
 
             return loans_df
 
+    """
+    TODO: Create a better way of prioritizing loans. Currently the _listed_loans method
+    would need to be overridden.
+    """
     def invest(self, total_amount=25, amount_per_note=25, filter_id=None, portfolio_id=None):
-        available_cash = self.available_cash()
+        available_cash = self.available_cash(as_string=False)
         if total_amount > available_cash:
             raise AvailableCashError(available_cash, total_amount)
         try:
@@ -113,10 +133,16 @@ class ExtendedLendingClubSession(ExtendedBase):
                                         key='myPortfolios',
                                         as_dataframe=as_dataframe)
 
+    def portfolio_id_by_name(self, name):
+        return self._portfolio_id_by_name(name)
+
     def filters(self, as_dataframe=True):
         return self._get_response_value(self.session.account.filters,
                                         key='filters',
                                         as_dataframe=as_dataframe)
+
+    def filter_id_by_name(self, name):
+        return self._filter_id_by_name(name)
 
     def listed_loans(self, filter_id=None):
         return self._listed_loans(filter_id=filter_id)
