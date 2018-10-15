@@ -4,7 +4,7 @@ import os
 from pylendingclub.config import LC_API_VERSION
 from pylendingclub.session import LendingClubSession
 
-def test_account_summary_keys():
+def account_summary_keys():
     return [
         'investorId', 'availableCash', 'accountTotal',
         'accruedInterest', 'infundingBalance', 'receivedInterest',
@@ -13,37 +13,37 @@ def test_account_summary_keys():
         'adjustments'
     ]
 
-def test_available_cash_keys():
+def available_cash_keys():
     return [
         'investorId', 'availableCash'
     ]
 
-def test_notes_keys():
+def notes_keys():
     return [
         'myNotes'
     ]
 
-def test_detailed_notes_keys():
+def detailed_notes_keys():
     return [
         'myNotes'
     ]
 
-def test_portfolios_owned_keys():
+def portfolios_owned_keys():
     return [
         'myPortfolios'
     ]
 
-def test_filters_keys():
+def filters_keys():
     return [
 
     ]
 
-def test_funds_pending_keys():
+def funds_pending_keys():
     return [
 
     ]
 
-def test_listed_loans_keys():
+def listed_loans_keys():
     return [
         'asOfDate', 'loans'
     ]
@@ -54,7 +54,7 @@ def is_response(value):
 def is_successful_response(value):
     return value.status_code == 200
 
-def test_response(response, keys):
+def check_response(response, keys):
     assert is_response(response), 'Response provided is not a Response object.'
     assert is_successful_response(response), 'Response from the API was not successful. Status Code {}: {}'.format(response.status_code, response.reason)
     assert isinstance(response.json(), dict), 'Unable to get JSON from response.'
@@ -62,19 +62,19 @@ def test_response(response, keys):
 
 
 
-def run_lc_tests():
+def test_wrapper():
     session = LendingClubSession.from_environment_variables()
 
-    test_response(session.account.summary, test_account_summary_keys())
-    test_response(session.account.available_cash, test_available_cash_keys())
-    test_response(session.account.notes, test_notes_keys())
-    test_response(session.account.detailed_notes, test_detailed_notes_keys())
-    test_response(session.account.portfolios_owned, test_portfolios_owned_keys())
-    test_response(session.account.filters, test_filters_keys())
-    test_response(session.account.funds.pending, test_funds_pending_keys())
-    test_response(session.loan.listed_loans(), test_listed_loans_keys())
+    check_response(session.account.summary, account_summary_keys())
+    check_response(session.account.available_cash, available_cash_keys())
+    check_response(session.account.notes, notes_keys())
+    check_response(session.account.detailed_notes, detailed_notes_keys())
+    check_response(session.account.portfolios_owned, portfolios_owned_keys())
+    check_response(session.account.filters, filters_keys())
+    check_response(session.account.funds.pending, funds_pending_keys())
+    check_response(session.loan.listed_loans(), listed_loans_keys())
 
     print('All tests passed.')
 
 if __name__ == '__main__':
-    run_lc_tests()
+    test_wrapper()
