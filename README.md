@@ -1,5 +1,6 @@
-# PyLendingClub Wrapper
+# PyLendingClub
 
+# Wrapper
 ## Description
 
 A high-level API wrapper for the Lending Club API. See the API documentation here: https://www.lendingclub.com/developers/api-overview. The wrapper provides access to all of the methods within the API.
