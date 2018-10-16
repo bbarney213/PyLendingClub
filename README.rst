@@ -52,8 +52,6 @@ Overview
 
 .. end-badges
 
-An example package. Generated with cookiecutter-pylibrary.
-
 * Free software: BSD 3-Clause License
 
 Installation
@@ -62,34 +60,9 @@ Installation
 ::
 
     pip install pylendingclub
+    
+About
+============
 
-Documentation
-=============
+A Python based wrapper for Lending Club's API that enables easier programmatic use of the API. Also extends the functionality of the API through a higher-level wrapper for ease of use, and an AutoInvestor. More features to come.
 
-
-https://PyLendingClub.readthedocs.io/
-
-
-Development
-===========
-
-To run the all tests run::
-
-    tox
-
-Note, to combine the coverage data from all the tox environments run:
-
-.. list-table::
-    :widths: 10 90
-    :stub-columns: 1
-
-    - - Windows
-      - ::
-
-            set PYTEST_ADDOPTS=--cov-append
-            tox
-
-    - - Other
-      - ::
-
-            PYTEST_ADDOPTS=--cov-append tox
