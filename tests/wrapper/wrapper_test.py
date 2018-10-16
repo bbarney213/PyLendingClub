@@ -1,9 +1,3 @@
-import os
-import sys
-sys.path.insert(0, os.path.abspath('..'))
-
-print('Modified system path')
-
 import requests
 
 from pylendingclub.config import LC_API_VERSION
