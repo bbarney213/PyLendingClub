@@ -25,7 +25,7 @@ def read(*names, **kwargs):
 
 setup(
     name='pylendingclub',
-    version='4.0.0',
+    version='3.0.2',
     license='BSD 3-Clause License',
     description='An example package. Generated with cookiecutter-pylibrary.',
     long_description='%s\n%s' % (
@@ -35,7 +35,7 @@ setup(
     author='Brandon Dean Barney',
     author_email='brandon.barney213@yahoo.com',
     url='https://github.com/bbarney213/PyLendingClub',
-    packages=find_packages('src'),
+    packages=find_packages('src', exclude=['.git']),
     package_dir={'': 'src'},
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     include_package_data=True,
@@ -46,10 +46,14 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
-        'Topic :: Utilities',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     keywords=[
-        'python', 'investing', 'lending-club', 'lending-club-api', 'peer investing'
+        'python', 'investing', 'finance', 'api-wrapper', 'lending-club', 'lending-club-api', 'p2p-investing'
     ],
     install_requires=[
         # eg: 'aspectlib==1.1.1', 'six>=1.7',
