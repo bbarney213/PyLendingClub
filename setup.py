@@ -1,5 +1,19 @@
 from distutils.core import setup
 
+
+setup(name='pylendingclub',
+      packages = ['pylendingclub'],
+      description = 'A Python wrapper for automation of the Lending Club API.',
+      author = 'Brandon Barney',
+      author_email = 'brandon.barney213@yahoo.com',
+      keywords = ['python', 'lendingclub'],
+      url = 'https://github.com/bbarney213/PyLendingClub',
+      classifiers = [],
+      setup_requires=['pytest-runner'],
+      tests_require=['pytest']
+
+)
+"""
 setup(
     name = 'pylendingclub',
     packages = ['pylendingclub'],
@@ -12,3 +26,4 @@ setup(
     keywords = ['python', 'lendingclub'],
     classifiers = [],
 )
+"""
