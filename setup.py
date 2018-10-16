@@ -2,6 +2,7 @@ from distutils.core import setup
 
 
 setup(name='pylendingclub',
+      package_dir = {'' : 'src'}
       packages = ['pylendingclub'],
       description = 'A Python wrapper for automation of the Lending Club API.',
       author = 'Brandon Barney',
