@@ -5,12 +5,11 @@ from datetime import datetime, timezone, timedelta
 from collections import namedtuple
 from threading import Thread, Timer
 
-
 class LendingClubAutoInvestor():
     def __print(self, *args, **kwargs):
         if self.__verbose:
             print(*args, **kwargs)
-            
+
     def _validate_value(self, value):
         if value > 0:
             return value

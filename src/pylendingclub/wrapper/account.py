@@ -1,9 +1,10 @@
 import time
 
-from pylendingclub.resource import Resource
-from pylendingclub.funds import Funds
+from pylendingclub.wrapper.resource import Resource
+from pylendingclub.wrapper.funds import Funds
+from pylendingclub.wrapper.base import ExtendedBase
+
 from pylendingclub.config import LC_MIN_NOTE_INVESTMENT, LC_INVESTMENT_DENOMINATION
-from pylendingclub.base import ExtendedBase
 
 class Account(Resource):
     """
