@@ -55,21 +55,23 @@ Overview
 * Free software: BSD 3-Clause License
 
 Installation
-============
+========================
 
 ::
 
     pip install pylendingclub
-    
+
+
 About
-============
+========================
 
 A Python based wrapper for Lending Club's API that enables easier programmatic use of the API. Also extends the functionality of the API through a higher-level wrapper for ease of use, and an AutoInvestor. More features to come.
 
 See the API documentation here: https://www.lendingclub.com/developers/api-overview.
 
+
 Getting Started
-============
+========================
 
 To get started, download the package with pip:
 
@@ -79,7 +81,7 @@ To get started, download the package with pip:
 
 
 Once the package is installed, you will need a Session object. You can create one directly, by passing your api-key_ and investor-id_.
-    
+
     .. _api-key: https://www.lendingclub.com/account/profile.action
     .. _investor-id: https://www.lendingclub.com/account/summary.action
 
@@ -87,9 +89,9 @@ Once the package is installed, you will need a Session object. You can create on
 
     from pylendingclub.session import LendingClubSession
     session = LendingClubSession(api_key, investor_id)
-    
-    
-    
+
+
+
 
 Alternatively, you can create environment variables for both of these values. Make sure they are created as 'LC_API_KEY' and 'LC_INVESTOR_ID'.
 
@@ -101,11 +103,12 @@ With environment variables set, you can create a `Session` with them like so:
     session = LendingClubSession.from_environment_variables()
 
 
+
 Using the Session Object
-============
+========================
 
 Sessions and Responses
-============
+========================
 Calls to the API through the `Session` will return a Response_ object. You can then work with this response as needed. If you just want the JSON data from the response, use the following syntax:
 
     .. _Response : http://docs.python-requests.org/en/master/api/#requests.Response
@@ -125,8 +128,9 @@ or
 
 You can also chain the `.json()` call directly onto the property, or method, but this won't allow you to handle an error with the response without making a separate call to get the original response. Especially when working with the `POST` methods, it is recommended to store the response separate from the JSON, but it is not required.
 
+
 Accessing Resources
-============
+========================
 There are two primary resources available within the API. These are the `Account` and `Loan` resources. You can access them within the `Session` like so:
 
 ::
@@ -140,10 +144,10 @@ These two resources expose the sub-resources/services within the API. More on th
 **Remember, all of these services will return a `Response`.**
 
 Account Resource
-============
+========================
 
 Account Summary
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/summary
 
@@ -153,10 +157,10 @@ Syntax:
 ::
 
     account_summary = session.account.summary
-    
-    
+
+
 Available Cash
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/available-cash
 
@@ -168,7 +172,7 @@ Syntax:
     available_cash = session.account.available_cash
 
 Notes
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/notes-owned
 
@@ -180,7 +184,7 @@ Syntax:
     notes = session.account.notes
 
 Detailed Notes
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/detailed-notes-owned
 
@@ -192,7 +196,7 @@ Syntax:
     detailed_notes = session.account.detailed_notes
 
 Portfolios Owned
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/portfolios-owned
 
@@ -204,7 +208,7 @@ Syntax:
     portfolios_owned = session.account.portfolios_owned
 
 Filters
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/filters
 
@@ -216,7 +220,7 @@ Syntax:
     filters = session.account.filters
 
 Create Portfolio
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/create-portfolio
 
@@ -228,7 +232,7 @@ Syntax:
     create_portfolio = session.account.create_portfolio(portfolio_name, [portfolio_description])
 
 Submit Orders
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/submit-order
 
@@ -271,7 +275,7 @@ Syntax:
     submit_orders = session.account.submit_orders(orders)
 
 Submit Order
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/submit-order
 
@@ -285,10 +289,10 @@ Syntax:
     submit_order = session.account.submit_order(loan_id, requested_amount, [portfolio_id])
 
 Account/Funds
-============
+========================
 
 Pending Transfers
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/pending-transfers
 
@@ -300,7 +304,7 @@ Syntax:
     pending_transfers = session.account.funds.pending
 
 Add
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/add-funds
 
@@ -318,7 +322,7 @@ Syntax:
     add_funds = session.account.funds.add(amount, transfer_frequency, [start_date], [end_date])
 
 Withdraw
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/add-funds
 
@@ -330,7 +334,7 @@ Syntax:
     withdraw_funds = session.account.funds.withdraw(amount)
 
 Cancel Transfer
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/cancel-transfers
 
@@ -342,16 +346,16 @@ Syntax:
     cancel_transfer = session.account.funds.cancel(transfer_id)
 
 Loan Resource
-============
+========================
 
 Listed Loans
-============
+========================
 
 API Documentation: https://www.lendingclub.com/developers/listed-loans
 
 Method Type: GET
 
-Notes: 
+Notes:
 
 The `show_all` argument will determine whether all loans are shown, or only the loans from the most recent listing period are shown.
 
