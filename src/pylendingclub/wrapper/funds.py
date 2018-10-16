@@ -15,6 +15,7 @@ class Funds(Resource):
         """
         return self._pending.send()
 
+
     def add(self, amount, transfer_frequency, start_date=None, end_date=None):
         """
         Transfer funds to the account.
@@ -39,6 +40,7 @@ class Funds(Resource):
 
         return self._add.send(payload=payload)
 
+
     def withdraw(self, amount):
         """
         Withdraw funds from the account.
@@ -49,6 +51,7 @@ class Funds(Resource):
         """
         return self._withdraw.send(payload={ 'amount' : amount})
 
+
     def cancel(self, transfer_id):
         """
         Cancel a pending transfer.
@@ -58,6 +61,7 @@ class Funds(Resource):
         See: https://www.lendingclub.com/developers/cancel-transfers
         """
         return self._cancel.send(payload={'transferIds' [transfer_id]})
+
 
     def __init__(self, url, headers):
         super().__init__(url, headers)

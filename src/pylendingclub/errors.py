@@ -8,6 +8,7 @@ class AvailableCashError(Exception):
 
         super().__init__(error_message)
 
+
 class InvalidAmountError(Exception):
     def __init__(self, amount, denomination):
         error_message = (
@@ -16,6 +17,7 @@ class InvalidAmountError(Exception):
 
         super().__init__(error_message)
 
+
 class UnevenDivisionError(Exception):
     def __init__(self, numerator, denominator):
         error_message = (
@@ -23,6 +25,7 @@ class UnevenDivisionError(Exception):
                         ).format(numerator=numerator, denominator=denominator)
 
         super().__init__(error_message)
+
 
 class AvailableLoansError(Exception):
     def __init__(self):

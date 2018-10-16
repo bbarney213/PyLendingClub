@@ -14,9 +14,11 @@ class Request():
         raise NotImplementedError('Send method accessed from base class. Should be accessed from derived' +
                                   ' GetRequest or PostRequest')
 
+
     def __init__(self, url, headers):
         self._url = url
         self._headers = headers
+
 
 class GetRequest(Request):
     """
@@ -24,6 +26,7 @@ class GetRequest(Request):
     """
     def send(self, query_params=None):
         return requests.get(url=self._url, params=query_params, headers=self._headers)
+
 
 class PostRequest(Request):
     """

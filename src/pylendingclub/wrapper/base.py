@@ -11,17 +11,20 @@ class Base():
         """
         return url if url.endswith('/') else (url + '/')
 
+
     def _remove_leading_slash(self, url):
         """
         Removes the leading slash from the URL.
         """
         return url if not url.startswith('/') else url[1:]
 
+
     def join_url(self, base_url, sub_url, add_trailing_slash=False):
         """
         Joins a base url together with the sub-directory.
         """
         return  self._add_trailing_slash(base_url) + self._remove_leading_slash(sub_url)
+
 
 class ExtendedBase(Base):
     def _unpack_dictionary(self, input_dictionary):
@@ -33,6 +36,7 @@ class ExtendedBase(Base):
             else:
                 unpacked_dictionary[key] = value
         return unpacked_dictionary
+
 
     def _get_response_value(self, response, key=None, as_dataframe=False, raise_for_status=False):
         if raise_for_status:
@@ -54,6 +58,7 @@ class ExtendedBase(Base):
                 return pd.DataFrame(response_value)
 
             return response_value
+
 
     def _dict_by_key_value_pair(self, dicts, key, value):
         for dict_item in dicts:
