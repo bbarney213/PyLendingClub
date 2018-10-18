@@ -3,7 +3,8 @@ import pytz
 
 from datetime import datetime, timezone, timedelta
 from collections import namedtuple
-from threading import Thread, Timer
+from threading import Timer
+
 
 class LendingClubAutoInvestor():
     def __print(self, *args, **kwargs):
@@ -65,7 +66,8 @@ class LendingClubAutoInvestor():
 
     def _next_scheduled_time(self, timezone='LOCAL'):
         supported_timezone_keys = ['LOCAL', 'PLATFORM', 'UTC']
-        supported_timezone_items = [self._LOCAL_TIMEZONE, self._PLATFORM_TIMEZONE, self._UTC_TIMEZONE]
+        supported_timezone_items = [self._LOCAL_TIMEZONE,
+                                    self._PLATFORM_TIMEZONE, self._UTC_TIMEZONE]
         if timezone.upper() in supported_timezone_keys:
             timezones = dict(zip(supported_timezone_keys, supported_timezone_items))
             return str(self.__next_run_time.astimezone(timezones[timezone]))
@@ -78,7 +80,8 @@ class LendingClubAutoInvestor():
         self.__print('Current Time: ', current_time)
 
         for time in self._times:
-            scheduled_time = datetime(year, month, day + time.dayoffset, time.hour, time.minute, tzinfo=pytz.utc)
+            scheduled_time = datetime(year, month, day + time.dayoffset,
+                                      time.hour, time.minute, tzinfo=pytz.utc)
             if current_time < scheduled_time:
                 return scheduled_time
 
@@ -93,21 +96,20 @@ class LendingClubAutoInvestor():
         self.__scheduled_thread.start()
         self.__next_run_time = next_run_time
         self.__print('Next Run Time: \n', 'PLATFORM', self._next_scheduled_time('PLATFORM'), '\n',
-                                   'LOCAL:', self._next_scheduled_time('LOCAL'), '\n',
-                                   'UTC:', self._next_scheduled_time('UTC'), '\n',
-                                   flush=True)
+                     'LOCAL:', self._next_scheduled_time('LOCAL'), '\n',
+                     'UTC:', self._next_scheduled_time('UTC'), '\n',
+                     flush=True)
 
     def __invest(self):
         self.__print('Investing...', flush=True)
         response, confirmations = self.session.invest(total_amount=self._investment_amount,
                                                       amount_per_note=self._investment_per_note)
 
-        if not response is None:
+        if response is not None:
             self.__print('Response Successful: ', response.status_code == 200, flush=True)
             if response.status_code == 200:
                 for confirmation in confirmations:
                     self.__confirmations.append(confirmation)
-
 
     def __start(self):
         if self.__verbose:
@@ -156,7 +158,7 @@ class LendingClubAutoInvestor():
 
     @property
     def is_scheduled(self):
-        return not self.__scheduled_thread is None
+        return self.__scheduled_thread is not None
 
     @property
     def is_running(self):
@@ -187,12 +189,12 @@ class LendingClubAutoInvestor():
             return confirmations_summary
 
     def __init__(self, session,
-                       filter_name=None,
-                       portfolio_name=None,
-                       denomination=25,
-                       investment_per_note=25,
-                       minutes_until_expiration=1,
-                       verbose=False):
+                 filter_name=None,
+                 portfolio_name=None,
+                 denomination=25,
+                 investment_per_note=25,
+                 minutes_until_expiration=1,
+                 verbose=False):
 
         self.session = session
         self.__verbose = verbose

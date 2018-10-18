@@ -6,7 +6,6 @@ class Loan(Resource):
     Loan resource for the LendingClub API.
     """
 
-
     def listed_loans(self, filter_id=None, show_all=True):
         """
         The loans currenly listed.
@@ -16,8 +15,7 @@ class Loan(Resource):
 
         If a filter_id is provided, only loans matching the filter will be provided.
         """
-        return self._listed_loans.send(query_params={'filterId' : filter_id, 'showAll' : show_all})
-
+        return self._listed_loans.send(query_params={'filterId': filter_id, 'showAll': show_all})
 
     def __init__(self, url, headers):
         super().__init__(url, headers)
