@@ -1,9 +1,11 @@
+from collections import namedtuple
+from datetime import datetime
+from datetime import timedelta
+from datetime import timezone
+from threading import Timer
+
 import pandas as pd
 import pytz
-
-from datetime import datetime, timezone, timedelta
-from collections import namedtuple
-from threading import Timer
 
 
 class LendingClubAutoInvestor():

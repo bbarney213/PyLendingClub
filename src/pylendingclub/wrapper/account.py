@@ -1,10 +1,9 @@
 import time
 
-from pylendingclub.wrapper.resource import Resource
-from pylendingclub.wrapper.funds import Funds
-from pylendingclub.wrapper.base import ExtendedBase
-
 from pylendingclub.config import LC_INVESTMENT_DENOMINATION
+from pylendingclub.wrapper.base import ExtendedBase
+from pylendingclub.wrapper.funds import Funds
+from pylendingclub.wrapper.resource import Resource
 
 
 class Account(Resource):
