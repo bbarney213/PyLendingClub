@@ -2,17 +2,17 @@ import os
 
 import pandas as pd
 
-from pylendingclub.config import LC_API_VERSION
-from pylendingclub.errors import AvailableCashError
-from pylendingclub.errors import AvailableLoansError
-from pylendingclub.errors import InvalidAmountError
-from pylendingclub.errors import UnevenDivisionError
-from pylendingclub.wrapper.account import Account
-from pylendingclub.wrapper.account import AccountSummary
-from pylendingclub.wrapper.base import Base
-from pylendingclub.wrapper.base import ExtendedBase
-from pylendingclub.wrapper.loan import Loan
-from pylendingclub.wrapper.order import Order
+from ..config import LC_API_VERSION
+from ..errors import AvailableCashError
+from ..errors import AvailableLoansError
+from ..errors import InvalidAmountError
+from ..errors import UnevenDivisionError
+from .account import Account
+from .account import AccountSummary
+from .base import Base
+from .base import ExtendedBase
+from .loan import Loan
+from .order import Order
 
 
 class LendingClubSession(Base):

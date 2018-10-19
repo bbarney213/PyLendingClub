@@ -1,4 +1,4 @@
-from pylendingclub.wrapper.resource import Resource
+from .resource import Resource
 
 
 class Funds(Resource):
