@@ -153,7 +153,7 @@ class Account(Resource):
 
     def __init__(self, url, headers, investor_id):
         self._investor_id = investor_id
-        super().__init__(self.join_url(url, investor_id), headers)
+        super(Account, self).__init__(self.join_url(url, investor_id), headers)
 
         # Sub-Resources
         self.funds = Funds(self.join_url(self._url, 'funds'), headers)
