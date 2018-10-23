@@ -16,8 +16,8 @@ Overview
       - | |version| |wheel| |supported-versions| |supported-implementations|
         | |commits-since|
 
-.. |docs| image:: https://readthedocs.org/projects/PyLendingClub/badge/?style=flat
-    :target: https://readthedocs.org/projects/PyLendingClub
+.. |docs| image:: https://readthedocs.org/projects/pylendingclub/badge/?style=flat
+    :target: https://readthedocs.org/projects/pylendingclub/
     :alt: Documentation Status
 
 
