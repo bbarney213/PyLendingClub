@@ -18,5 +18,5 @@ class Loan(Resource):
         return self._listed_loans.send(query_params={'filterId': filter_id, 'showAll': show_all})
 
     def __init__(self, url, headers):
-        super().__init__(url, headers)
+        super(Loan, self).__init__(url, headers)
         self._listed_loans = self._get_request('listing')

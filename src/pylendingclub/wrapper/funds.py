@@ -62,7 +62,7 @@ class Funds(Resource):
         return self._cancel.send(payload={'transferIds' [transfer_id]})
 
     def __init__(self, url, headers):
-        super().__init__(url, headers)
+        super(Funds, self).__init__(url, headers)
 
         self._transfer_frequencies = ['LOAD_NOW', 'LOAD_ONCE', 'LOAD_WEEKLY', 'LOAD_BIWEEKLY',
                                       'LOAD_ON_DAY_1_AND_16', 'LOAD_MONTHLY']
