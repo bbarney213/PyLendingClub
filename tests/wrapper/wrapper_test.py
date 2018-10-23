@@ -2,6 +2,7 @@ import requests
 
 from pylendingclub.wrapper.session import LendingClubSession
 
+
 def account_summary_keys():
     return [
         'investorId', 'availableCash', 'accountTotal',
