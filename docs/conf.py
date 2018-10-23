@@ -26,7 +26,7 @@ project = 'PyLendingClub'
 year = '2018'
 author = 'Brandon Dean Barney'
 copyright = '{0}, {1}'.format(year, author)
-version = release = '4.0.0'
+version = release = '3.0.1'
 
 pygments_style = 'trac'
 templates_path = ['.']

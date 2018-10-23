@@ -1,11 +1,13 @@
-from pylendingclub.wrapper.base import Base
-from pylendingclub.wrapper.request import GetRequest, PostRequest
+from .base import Base
+from .request import GetRequest
+from .request import PostRequest
 
 
 class Resource(Base):
     """
     Base class for all resources within the API.
     """
+
     def _get_request(self, sub_url):
         """
         Constructor for a new GetRequest.
@@ -16,7 +18,6 @@ class Resource(Base):
         """
         return GetRequest(self.join_url(self._url, sub_url), self._headers)
 
-
     def _post_request(self, sub_url):
         """
         Constructor for a new PostRequest.
@@ -26,7 +27,6 @@ class Resource(Base):
         headers, and url, are properly provided.
         """
         return PostRequest(self.join_url(self._url, sub_url), self._headers)
-
 
     def __init__(self, url, headers):
         self._url = url

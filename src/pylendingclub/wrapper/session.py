@@ -1,14 +1,19 @@
 import os
+
 import pandas as pd
 
-from pylendingclub.wrapper.base import Base, ExtendedBase
-from pylendingclub.wrapper.account import Account, AccountSummary
-from pylendingclub.wrapper.order import Order
-from pylendingclub.wrapper.loan import Loan
+from ..config import LC_API_VERSION
+from ..errors import AvailableCashError
+from ..errors import AvailableLoansError
+from ..errors import InvalidAmountError
+from ..errors import UnevenDivisionError
+from .account import Account
+from .account import AccountSummary
+from .base import Base
+from .base import ExtendedBase
+from .loan import Loan
+from .order import Order
 
-from pylendingclub.config import LC_API_VERSION
-from pylendingclub.errors import AvailableCashError, AvailableLoansError, \
-                                 InvalidAmountError, UnevenDivisionError
 
 class LendingClubSession(Base):
     """
@@ -19,10 +24,10 @@ class LendingClubSession(Base):
 
     def __init__(self, api_key, investor_id):
         self._url = 'https://api.lendingclub.com/api/investor/{}/'.format(LC_API_VERSION)
-        self._headers = {'Authorization' : api_key}
-        self.account = Account(self.join_url(self._url, 'accounts', True), self._headers, investor_id)
+        self._headers = {'Authorization': api_key}
+        self.account = Account(self.join_url(self._url, 'accounts', True),
+                               self._headers, investor_id)
         self.loan = Loan(self.join_url(self._url, 'loans', True), self._headers)
-
 
     @classmethod
     def from_environment_variables(cls):
@@ -34,13 +39,11 @@ class ExtendedLendingClubSession(ExtendedBase):
         if (amount % denomination) != 0:
             raise InvalidAmountError(amount, denomination)
 
-
     def _num_notes(self, total_amount, amount_per_note):
         if (total_amount // amount_per_note) != (total_amount / amount_per_note):
             raise UnevenDivisionError(total_amount, amount_per_note)
         else:
             return int(total_amount / amount_per_note)
-
 
     def _filter_id_by_name(self, name):
         filters_response = self.session.account.filters
@@ -49,7 +52,6 @@ class ExtendedLendingClubSession(ExtendedBase):
         if filter_dict:
             return filter_dict['id']
 
-
     def _portfolio_id_by_name(self, name):
         portfolios_owned_response = self.session.account.portfolios_owned
         portfolios_data = portfolios_owned_response.json()['myPortfolios']
@@ -57,16 +59,14 @@ class ExtendedLendingClubSession(ExtendedBase):
         if filter_dict:
             return filter_dict['portfolioId']
 
-
     def _listed_loans(self,
                       filter_id=None,
-                      sort_fields={'loanAmount' : True,
-                                    'intRate' : False,
-                                    'empLength' : False}):
+                      sort_fields={'loanAmount': True,
+                                   'intRate': False,
+                                   'empLength': False}):
 
         listed_loans_response = self.session.loan.listed_loans(filter_id=filter_id)
         listed_loans_data = listed_loans_response.json()
-
 
         if 'loans' in listed_loans_data:
             loans_df = pd.DataFrame(listed_loans_data['loans'])
@@ -87,11 +87,11 @@ class ExtendedLendingClubSession(ExtendedBase):
 
             return loans_df
 
-
     """
     TODO: Create a better way of prioritizing loans. Currently the _listed_loans method
     would need to be overridden.
     """
+
     def invest(self, total_amount=25, amount_per_note=25, filter_id=None, portfolio_id=None):
         available_cash = self.available_cash(as_string=False)
         if total_amount > available_cash:
@@ -104,7 +104,7 @@ class ExtendedLendingClubSession(ExtendedBase):
             raise e
 
         listed_loans = self._listed_loans(filter_id=filter_id)
-        if not listed_loans is None:
+        if listed_loans is not None:
             orders = [Order(loan_id, amount_per_note, portfolio_id)
                       for loan_id in listed_loans.head(num_notes)['id'].values]
 
@@ -112,11 +112,9 @@ class ExtendedLendingClubSession(ExtendedBase):
         else:
             raise AvailableLoansError()
 
-
     @property
     def account_summary(self):
         return self._account_summary
-
 
     def available_cash(self, as_string=True):
         response_value = self._get_response_value(self.session.account.available_cash,
@@ -131,45 +129,36 @@ class ExtendedLendingClubSession(ExtendedBase):
                                         key='myNotes',
                                         as_dataframe=as_dataframe)
 
-
     def detailed_notes(self, as_dataframe=True):
         return self._get_response_value(self.session.account.detailed_notes,
                                         key='myNotes',
                                         as_dataframe=as_dataframe)
 
-
     def create_portfolio(self, name, description=None):
         return self.account.create_portfolio(name, description)
-
 
     def portfolios(self, as_dataframe=True):
         return self._get_response_value(self.session.account.portfolios_owned,
                                         key='myPortfolios',
                                         as_dataframe=as_dataframe)
 
-
     def portfolio_id_by_name(self, name):
         return self._portfolio_id_by_name(name)
-
 
     def filters(self, as_dataframe=True):
         return self._get_response_value(self.session.account.filters,
                                         key='filters',
                                         as_dataframe=as_dataframe)
 
-
     def filter_id_by_name(self, name):
         return self._filter_id_by_name(name)
-
 
     def listed_loans(self, filter_id=None):
         return self._listed_loans(filter_id=filter_id)
 
-
     def submit_order(self, loan_id, amount, portfolio=None):
         order = [Order(loan_id, amount, portfolio)]
         return self.submit_orders(order)
-
 
     def submit_orders(self, orders):
         packaged_orders = []
@@ -181,22 +170,17 @@ class ExtendedLendingClubSession(ExtendedBase):
 
         return self.session.account.submit_orders(packaged_orders)
 
-
     def add_funds(self, amount, transfer_frequency='LOAD_NOW', start_date=None, end_date=None):
         return self.session.account.funds.add(amount, transfer_frequency, start_date, end_date)
-
 
     def withdraw_funds(self, amount):
         return self.session.account.funds.withdraw(amount)
 
-
     def pending_transfers(self):
         return self.session.account.funds.pending
 
-
     def cancel_transfer(self, transfer_id):
         return self.session.account.funds.cancel(transfer_id)
-
 
     def __init__(self, account_summary_lifespan=300):
         self.session = LendingClubSession.from_environment_variables()

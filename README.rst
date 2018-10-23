@@ -16,10 +16,9 @@ Overview
       - | |version| |wheel| |supported-versions| |supported-implementations|
         | |commits-since|
 
-.. |docs| image:: https://readthedocs.org/projects/PyLendingClub/badge/?style=flat
-    :target: https://readthedocs.org/projects/PyLendingClub
+.. |docs| image:: https://readthedocs.org/projects/pylendingclub/badge/?style=flat
+    :target: https://readthedocs.org/projects/pylendingclub/
     :alt: Documentation Status
-
 
 .. |travis| image:: https://travis-ci.org/bbarney213/PyLendingClub.svg?branch=master
     :alt: Travis-CI Build Status
@@ -33,9 +32,9 @@ Overview
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/pylendingclub
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/bbarney213/PyLendingClub/v3.0.1.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/bbarney213/PyLendingClub/3.0.1.svg
     :alt: Commits since latest release
-    :target: https://github.com/bbarney213/PyLendingClub/compare/v3.0.1...master
+    :target: https://github.com/bbarney213/PyLendingClub/compare/3.0.1...master
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/pylendingclub.svg
     :alt: PyPI Wheel
@@ -43,7 +42,7 @@ Overview
 
 .. |supported-versions| image:: https://img.shields.io/pypi/pyversions/pylendingclub.svg
     :alt: Supported versions
-    :target: https://pypi.python.org/pypi/pylendingclub
+    :target: https://pypi.python.org/pypi/pylendingclub/
 
 .. |supported-implementations| image:: https://img.shields.io/pypi/implementation/pylendingclub.svg
     :alt: Supported implementations

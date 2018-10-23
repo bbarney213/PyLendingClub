@@ -27,7 +27,7 @@ setup(
     name='pylendingclub',
     version='3.0.2',
     license='BSD 3-Clause License',
-    description='An example package. Generated with cookiecutter-pylibrary.',
+    description='A python package for automating the LendingClub API.',
     long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))

@@ -1,4 +1,5 @@
-from pylendingclub.wrapper.resource import Resource
+from .resource import Resource
+
 
 class Funds(Resource):
     """
@@ -15,7 +16,6 @@ class Funds(Resource):
         """
         return self._pending.send()
 
-
     def add(self, amount, transfer_frequency, start_date=None, end_date=None):
         """
         Transfer funds to the account.
@@ -24,12 +24,13 @@ class Funds(Resource):
 
         See: https://www.lendingclub.com/developers/add-funds
         """
-        if not transfer_frequency in self._transfer_frequencies:
-            raise ValueError('Transfer frequency must be one of ' + ','.join(self._transfer_frequencies) + '.')
+        if transfer_frequency not in self._transfer_frequencies:
+            raise ValueError('Transfer frequency must be one of ' +
+                             ','.join(self._transfer_frequencies) + '.')
 
         payload = {
-                    'amount' : amount,
-                    'transferFrequency' : transfer_frequency
+            'amount': amount,
+            'transferFrequency': transfer_frequency
         }
 
         if start_date:
@@ -40,7 +41,6 @@ class Funds(Resource):
 
         return self._add.send(payload=payload)
 
-
     def withdraw(self, amount):
         """
         Withdraw funds from the account.
@@ -49,8 +49,7 @@ class Funds(Resource):
 
         See: https://www.lendingclub.com/developers/add-funds
         """
-        return self._withdraw.send(payload={ 'amount' : amount})
-
+        return self._withdraw.send(payload={'amount': amount})
 
     def cancel(self, transfer_id):
         """
@@ -62,17 +61,16 @@ class Funds(Resource):
         """
         return self._cancel.send(payload={'transferIds' [transfer_id]})
 
-
     def __init__(self, url, headers):
-        super().__init__(url, headers)
+        super(Funds, self).__init__(url, headers)
 
         self._transfer_frequencies = ['LOAD_NOW', 'LOAD_ONCE', 'LOAD_WEEKLY', 'LOAD_BIWEEKLY',
                                       'LOAD_ON_DAY_1_AND_16', 'LOAD_MONTHLY']
 
-        #GET Requests
+        # GET Requests
         self._pending = self._get_request('pending')
 
-        #POST Requests
+        # POST Requests
         self._add = self._post_request('add')
         self._withdraw = self._post_request('withdraw')
         self._cancel = self._post_request('cancel')
