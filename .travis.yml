@@ -68,6 +68,7 @@ jobs:
   - more .tox/*/log/* | cat
   - stage: deploy
   deploy:
+    script: skip
     provider: pypi
     user: bbarney213
     password:
