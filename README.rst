@@ -35,7 +35,7 @@ Overview
 
 .. |commits-since| image:: https://img.shields.io/github/commits-since/bbarney213/PyLendingClub/v3.0.1.svg
     :alt: Commits since latest release
-    :target: https://github.com/bbarney213/PyLendingClub/compare/v3.0.1...master
+    :target: https://github.com/bbarney213/PyLendingClub/compare/3.0.1...master
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/pylendingclub.svg
     :alt: PyPI Wheel
