@@ -1,7 +1,7 @@
 import requests
 
 
-class Request():
+class Request(object):
     """
     Base class for sending a GET or POST request.
     """

@@ -1,4 +1,4 @@
-class Order():
+class Order(object):
     def order(self):
         return {
             'loanId': self._loan_id,

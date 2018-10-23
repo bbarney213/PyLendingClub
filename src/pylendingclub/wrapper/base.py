@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-class Base():
+class Base(object):
     """
     Provides basic functions for handling URL's when creating requests and resources.
     """
