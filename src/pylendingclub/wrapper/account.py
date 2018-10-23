@@ -1,6 +1,7 @@
 import time
 
 from pylendingclub.config import LC_INVESTMENT_DENOMINATION
+
 from .base import ExtendedBase
 from .funds import Funds
 from .resource import Resource
