@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 import os
 
+import pkg_resources
+
 
 extensions = [
     'sphinx.ext.autodoc',
@@ -26,7 +28,7 @@ project = 'PyLendingClub'
 year = '2018'
 author = 'Brandon Dean Barney'
 copyright = '{0}, {1}'.format(year, author)
-version = release = '3.0.2'
+version = release = pkg_resources.get_distribution("pylendingclub").version
 
 pygments_style = 'trac'
 templates_path = ['.']
