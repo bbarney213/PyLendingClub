@@ -14,7 +14,7 @@ from os.path import splitext
 from setuptools import find_packages
 from setuptools import setup
 
-version = '3.0.4.dev1'
+version = '3.0.5.dev0'
 
 
 def read(*names, **kwargs):
