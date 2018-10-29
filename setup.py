@@ -14,7 +14,8 @@ from os.path import splitext
 from setuptools import find_packages
 from setuptools import setup
 
-version = '3.0.3.dev0'
+version = '3.0.4.dev1'
+
 
 def read(*names, **kwargs):
     with io.open(
@@ -22,6 +23,7 @@ def read(*names, **kwargs):
         encoding=kwargs.get('encoding', 'utf8')
     ) as fh:
         return fh.read()
+
 
 setup(
     name='pylendingclub',
