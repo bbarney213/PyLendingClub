@@ -299,7 +299,7 @@ class InvestorScheduler(object):
                  session=None,
                  investor=None,
                  investment_per_note=25,
-                 filter_name=None
+                 filter_name=None,
                  minutes_until_expiration=1,
                  minutes_between_checks=24*60,
                  verbose=False):
