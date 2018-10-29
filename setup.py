@@ -14,6 +14,7 @@ from os.path import splitext
 from setuptools import find_packages
 from setuptools import setup
 
+version = '3.0.3.dev0'
 
 def read(*names, **kwargs):
     with io.open(
@@ -22,10 +23,9 @@ def read(*names, **kwargs):
     ) as fh:
         return fh.read()
 
-
 setup(
     name='pylendingclub',
-    version='3.0.3.dev0',
+    version=version,
     license='BSD 3-Clause License',
     description='A python package for automating the LendingClub API.',
     long_description='%s\n%s' % (
