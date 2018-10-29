@@ -7,8 +7,10 @@ from threading import Timer
 import pandas as pd
 import pytz
 
+from pylendingclub import config
 
-class LendingClubAutoInvestor():
+
+class LendingClubAutoInvestor(object):
     def __print(self, *args, **kwargs):
         if self.__verbose:
             print(*args, **kwargs)
@@ -29,7 +31,6 @@ class LendingClubAutoInvestor():
 
     @property
     def _num_notes(self):
-        return 1
         return self._investment_amount // self._investment_per_note
 
     @property
@@ -190,11 +191,12 @@ class LendingClubAutoInvestor():
 
             return confirmations_summary
 
-    def __init__(self, session,
-                 filter_name=None,
-                 portfolio_name=None,
+    def __init__(self,
+                 session,
                  denomination=25,
                  investment_per_note=25,
+                 filter_name=None,
+                 portfolio_name=None,
                  minutes_until_expiration=1,
                  verbose=False):
 
@@ -230,3 +232,106 @@ class LendingClubAutoInvestor():
 
     def __del__(self):
         self.__cancel()
+
+class InvestorScheduler(object):
+    """
+    Handles the automatic creation of investor processes when there are available funds.
+    """
+    def __validate_delay_value(self, value):
+        if value < 0:
+            value *= -1
+        elif value == 0:
+            value = 1
+
+    @property
+    def __investor_started(self):
+        return self.__investor.is_running or self.__investor.is_scheduled
+
+    def __start_investor(self):
+        if not self.__investor_started:
+            self.__investor.start()
+
+    def __stop_investor(self):
+        if self.__investor_started:
+            self.__investor.stop()
+
+    def __start(self):
+        self.__start_investor()
+
+    def __stop(self):
+        self.__stop_investor()
+
+    def start(self):
+        self.__start()
+        self.__scheduled_thread = Timer(self.__minutes_between_checks*60, self.__start)
+        self.__scheduled_thread.start()
+
+    def stop(self):
+        self.__scheduled_thread = None
+        self.__stop_investor()
+
+    @property
+    def investor_is_scheduled(self):
+        if self.__investor:
+            return self.__investor.is_scheduled
+        return False
+
+    @property
+    def investor_is_running(self):
+        if self.__investor:
+            return self.__investor.__is_running
+        return False
+
+    @property
+    def investor_status(self):
+        if self.__investor:
+            return self.__investor.status
+        return "Investor not created yet."
+
+    @property
+    def status(self):
+        if self.__investor:
+            return "Investor Created. Investor Status:\n" + self.__investor.status
+        else:
+            return "Undefined. No investor Created."
+
+    def __init__(self,
+                 session=None,
+                 investor=None,
+                 investment_per_note=25,
+                 filter_name=None,
+                 minutes_until_expiration=1,
+                 minutes_between_checks=24*60,
+                 verbose=False):
+
+        if investment_per_note < config.LC_MIN_NOTE_INVESTMENT:
+            raise ValueError('Minimum Note Investment amount is {}.'.format(
+            config.LC_MIN_NOTE_INVESTMENT))
+
+        if investment_per_note % config.LC_INVESTMENT_DENOMINATION != 0:
+            raise ValueError('Investment Per Note {} must be a multiple of {}.'.format(
+            investment_per_note, config.LC_INVESTMENT_DENOMINATION))
+
+        self.__investment_per_note = investment_per_note
+        self.__minutes_until_expiration = self.__validate_delay_value(minutes_until_expiration)
+        self.__minutes_between_checks = self.__validate_delay_value(minutes_between_checks)
+        self.__filter_name = filter_name
+        self.__verbose = verbose
+
+        if not session:
+            from pylendingclub.wrapper.session import ExtendedLendingClubSession
+            self.__session = ExtendedLendingClubSession()
+
+        if not investor:
+            self.__investor = LendingClubAutoInvestor(self.__session,
+                                                      denomination=self.__denomination,
+                                                      investment_per_note=self.__investment_per_note,
+                                                      filter_name=self.__filter_name,
+                                                      minutes_until_expiration=self.__minutes_until_expiration,
+                                                      verbose=self.__verbose)
+
+        self.__scheduled_thread = None
+
+    def __del__(self):
+        self.__scheduled_thread = None
+        self.__stop_investor()
