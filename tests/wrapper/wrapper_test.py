@@ -38,7 +38,7 @@ def check_response(response, keys, name):
         print('Response:', response)
         try:
             print('Response JSON:', response.json())
-        except AttributeError as e:
+        except AttributeError:
             pass
         raise
 

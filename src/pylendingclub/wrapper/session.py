@@ -40,7 +40,6 @@ class LendingClubSession(Base):
                        LC_SANDBOX_API_URL)
 
 
-
 class ExtendedLendingClubSession(ExtendedBase):
     def _validate_amount(self, amount, denomination=25):
         if (amount % denomination) != 0:
