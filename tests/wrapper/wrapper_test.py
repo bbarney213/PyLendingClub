@@ -52,6 +52,39 @@ def test_wrapper():
     check_response(session.loan.listed_loans(), LISTED_LOANS_KEYS, 'Listed Loans')
     print('All tests passed.')
 
+"""
+Tests Missing:
+    Session:
+        create_portfolio
+            - No way to delete portfolio, so portfolios would become croweded over time
 
+        submit_orders
+        submit_order
+
+    AccountSummary:
+        - Extends the account_summary response. Allows a persisted summary that refreshes
+          after ~300 seconds.
+
+    ExtendedBase:
+        _unpack_dictionary
+        _get_response_value
+        _dict_by_key_value_pair
+
+    Funds:
+        add
+        withdraw
+        cancel
+
+    Order:
+        - For wrapping Orders.
+
+    ConfirmedOrder
+
+    PostRequest
+
+    ExtendedLendingClubSession
+
+    AutoInvestor
+"""
 if __name__ == '__main__':
     test_wrapper()
