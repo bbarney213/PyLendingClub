@@ -1,5 +1,7 @@
-from pylendingclub.wrapper.session import LendingClubSession
 import requests
+
+from pylendingclub.wrapper.session import LendingClubSession
+
 if __name__ == '__main__':
     import sys
     from os.path import dirname, abspath, join

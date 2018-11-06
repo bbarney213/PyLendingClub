@@ -2,7 +2,8 @@ import os
 
 import pandas as pd
 
-from ..config import LC_API_URL, LC_SANDBOX_API_URL
+from ..config import LC_API_URL
+from ..config import LC_SANDBOX_API_URL
 from ..errors import AvailableCashError
 from ..errors import AvailableLoansError
 from ..errors import InvalidAmountError
