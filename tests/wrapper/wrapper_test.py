@@ -32,7 +32,7 @@ def check_response(response, keys, name):
                                       ), 'Response JSON missing expected fields.'
         else:
             print('Unable to check the response keys for the {} resource. Response is empty.'.format(name))
-    except AssertionError as e:
+    except AssertionError:
         print('Tests Failed:')
         print('Method: {}'.format(name))
         print('Response:', response)
