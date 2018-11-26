@@ -63,14 +63,6 @@ script:
 after_failure:
 - more .tox/log/* | cat
 - more .tox/*/log/* | cat
-deploy:
-  provider: pypi
-  user: bbarney213
-  password:
-    secure: VaUHXJYBtXPbTJfTtutltNbowtegxugl4djEeiDqfEIytIFOwusbCEhG0/KOMpdXCRXreqIZ+jXYJQ4I7ySVdkq97MiP/WM3Sjj9TFgk3NAHDtccWMVjLDdPn5BIyppt73K3oiiQCu8KIj+MwhGu+aMBzE0euZATF1cW3EJgdDt+6BexOC6Bv1HQtY/fL14dZL7P5cungfcv0oLbsLGtNJbMCN42ExPgBwKVr3jSJIEs9jD/zuOa6TquQQGw2kz/JKmAgCLdXLUcx6EWQBcrpaBJznQ/Dqlzc8/Xp0gCmmYgHyjDbngeNg8O+xXpP5yUGoj69+sdz6Bxo+GcQ/jndpowJV+LJqk6U6LYn/Ifc496Jn8nOHxUgr7iVQWWW+fGny/HKVJcqqpetuXI2M9YyR+LEnfzDddDlEtuFAOIJU8/ra6HkPxw3SYe5q5lHybOMivnQLa2L25kk5/AV0iVUV/l5wriDkC8LdIgOkgqpdu2MFKLJxlpwr80xvOqMX4ubc3WwkiBCSnNthmdGyGGGrUkpVzvBtFMZZizEO0iSXlnByzJlYizgNKl5E476BjaXafCfZ3q1GKq6EPsUCq6U5LBalcIw3CiMY0qyvqY+48czZMc5I7HozpMYlHtY1hC82uiUTsh8U/Axhzbeo+K+UvkbSxYM/UpbddmsEhlMVU=
-  skip_cleanup: true
-  on:
-    tags: true
 notifications:
   email:
     on_success: never

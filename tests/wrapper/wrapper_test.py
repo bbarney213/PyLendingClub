@@ -2,89 +2,95 @@ import requests
 
 from pylendingclub.wrapper.session import LendingClubSession
 
-
-def account_summary_keys():
-    return [
-        'investorId', 'availableCash', 'accountTotal',
-        'accruedInterest', 'infundingBalance', 'receivedInterest',
-        'receivedPrincipal', 'receivedLateFees', 'outstandingPrincipal',
-        'totalNotes', 'totalPortfolios', 'netAnnualizedReturn',
-        'adjustments'
-    ]
+if __name__ == '__main__':
+    import sys
+    from os.path import dirname, abspath, join
+    package_path = join(dirname(dirname(dirname(abspath(__file__)))), 'src')
+    sys.path.insert(0, package_path)
 
 
-def available_cash_keys():
-    return [
-        'investorId', 'availableCash'
-    ]
+ACCOUNT_SUMMARY_KEYS = ['investorId', 'availableCash', 'accountTotal',
+                        'accruedInterest', 'infundingBalance', 'receivedInterest',
+                        'receivedPrincipal', 'receivedLateFees', 'outstandingPrincipal',
+                        'totalNotes', 'totalPortfolios', 'netAnnualizedReturn',
+                        'adjustments']
+AVAILABLE_CASH_KEYS = ['investorId', 'availableCash']
+NOTES_KEYS = DETAILED_NOTES_KEYS = ['myNotes']
+PORTFOLIOS_OWNED_KEYS = ['myPortfolios']
+FILTERS_KEYS = []
+FUNDS_PENDING_KEYS = []
+LISTED_LOANS_KEYS = ['asOfDate', 'loans']
 
 
-def notes_keys():
-    return [
-        'myNotes'
-    ]
-
-
-def detailed_notes_keys():
-    return [
-        'myNotes'
-    ]
-
-
-def portfolios_owned_keys():
-    return [
-        'myPortfolios'
-    ]
-
-
-def filters_keys():
-    return [
-
-    ]
-
-
-def funds_pending_keys():
-    return [
-
-    ]
-
-
-def listed_loans_keys():
-    return [
-        'asOfDate', 'loans'
-    ]
-
-
-def is_response(value):
-    return isinstance(value, requests.Response)
-
-
-def is_successful_response(value):
-    return value.status_code == 200
-
-
-def check_response(response, keys):
-    assert is_response(response), 'Response provided is not a Response object.'
-    assert is_successful_response(response), 'Response from the API was not successful. Status Code {}: {}'.format(
-        response.status_code, response.reason)
-    assert isinstance(response.json(), dict), 'Unable to get JSON from response.'
-    assert set(keys).issubset(response.json().keys()), 'Response JSON missing expected fields.'
+def check_response(response, keys, name):
+    try:
+        assert isinstance(
+            response, requests.Response), 'Response provided is not a Response object.'
+        assert response.status_code == 200, 'Response from the API was not successful. Status Code {}: {}'.format(
+            response.status_code, response.reason)
+        assert isinstance(response.json(), dict), 'Unable to get JSON from response.'
+        if len(response.json()) > 0:
+            assert set(keys).issubset(response.json().keys()
+                                      ), 'Response JSON missing expected fields.'
+        else:
+            print('Unable to check the response keys for the {} resource. Response is empty.'.format(name))
+    except AssertionError:
+        print('Tests Failed:')
+        print('Method: {}'.format(name))
+        print('Response:', response)
+        try:
+            print('Response JSON:', response.json())
+        except AttributeError:
+            pass
+        raise
 
 
 def test_wrapper():
-    session = LendingClubSession.from_environment_variables()
-
-    check_response(session.account.summary, account_summary_keys())
-    check_response(session.account.available_cash, available_cash_keys())
-    check_response(session.account.notes, notes_keys())
-    check_response(session.account.detailed_notes, detailed_notes_keys())
-    check_response(session.account.portfolios_owned, portfolios_owned_keys())
-    check_response(session.account.filters, filters_keys())
-    check_response(session.account.funds.pending, funds_pending_keys())
-    check_response(session.loan.listed_loans(), listed_loans_keys())
-
+    session = LendingClubSession.from_environment_variables(True)
+    check_response(session.account.summary, ACCOUNT_SUMMARY_KEYS, 'Account Summary')
+    check_response(session.account.available_cash, AVAILABLE_CASH_KEYS, 'Available Cash')
+    check_response(session.account.notes, NOTES_KEYS, 'Notes')
+    check_response(session.account.detailed_notes, DETAILED_NOTES_KEYS, 'Detailed Notes')
+    check_response(session.account.portfolios_owned, PORTFOLIOS_OWNED_KEYS, 'Portfolios Owned')
+    check_response(session.account.filters, FILTERS_KEYS, 'Filters')
+    check_response(session.account.funds.pending, FUNDS_PENDING_KEYS, 'Funds Pending')
+    check_response(session.loan.listed_loans(), LISTED_LOANS_KEYS, 'Listed Loans')
     print('All tests passed.')
 
 
+"""
+Tests Missing:
+    Session:
+        create_portfolio
+            - No way to delete portfolio, so portfolios would become croweded over time
+
+        submit_orders
+        submit_order
+
+    AccountSummary:
+        - Extends the account_summary response. Allows a persisted summary that refreshes
+          after ~300 seconds.
+
+    ExtendedBase:
+        _unpack_dictionary
+        _get_response_value
+        _dict_by_key_value_pair
+
+    Funds:
+        add
+        withdraw
+        cancel
+
+    Order:
+        - For wrapping Orders.
+
+    ConfirmedOrder
+
+    PostRequest
+
+    ExtendedLendingClubSession
+
+    AutoInvestor
+"""
 if __name__ == '__main__':
     test_wrapper()

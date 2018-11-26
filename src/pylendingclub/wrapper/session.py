@@ -2,7 +2,8 @@ import os
 
 import pandas as pd
 
-from ..config import LC_API_VERSION
+from ..config import LC_API_URL
+from ..config import LC_SANDBOX_API_URL
 from ..errors import AvailableCashError
 from ..errors import AvailableLoansError
 from ..errors import InvalidAmountError
@@ -22,16 +23,22 @@ class LendingClubSession(Base):
     The API resources are available as public properties.
     """
 
-    def __init__(self, api_key, investor_id):
-        self._url = 'https://api.lendingclub.com/api/investor/{}/'.format(LC_API_VERSION)
+    def __init__(self, api_key, investor_id, url=LC_API_URL):
+        self._url = url
         self._headers = {'Authorization': api_key}
         self.account = Account(self.join_url(self._url, 'accounts', True),
                                self._headers, investor_id)
         self.loan = Loan(self.join_url(self._url, 'loans', True), self._headers)
 
     @classmethod
-    def from_environment_variables(cls):
-        return cls(os.environ['LC_API_KEY'], os.environ['LC_INVESTOR_ID'])
+    def from_environment_variables(cls, test_mode=False):
+        if not test_mode:
+            return cls(os.environ['LC_API_KEY'],
+                       os.environ['LC_INVESTOR_ID'])
+        else:
+            return cls(os.environ['LC_SANDBOX_API_KEY'],
+                       os.environ['LC_SANDBOX_INVESTOR_ID'],
+                       LC_SANDBOX_API_URL)
 
 
 class ExtendedLendingClubSession(ExtendedBase):

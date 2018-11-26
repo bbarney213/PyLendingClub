@@ -233,10 +233,12 @@ class LendingClubAutoInvestor(object):
     def __del__(self):
         self.__cancel()
 
+
 class InvestorScheduler(object):
     """
     Handles the automatic creation of investor processes when there are available funds.
     """
+
     def __validate_delay_value(self, value):
         if value < 0:
             value *= -1
@@ -306,11 +308,11 @@ class InvestorScheduler(object):
 
         if investment_per_note < config.LC_MIN_NOTE_INVESTMENT:
             raise ValueError('Minimum Note Investment amount is {}.'.format(
-            config.LC_MIN_NOTE_INVESTMENT))
+                config.LC_MIN_NOTE_INVESTMENT))
 
         if investment_per_note % config.LC_INVESTMENT_DENOMINATION != 0:
             raise ValueError('Investment Per Note {} must be a multiple of {}.'.format(
-            investment_per_note, config.LC_INVESTMENT_DENOMINATION))
+                investment_per_note, config.LC_INVESTMENT_DENOMINATION))
 
         self.__investment_per_note = investment_per_note
         self.__minutes_until_expiration = self.__validate_delay_value(minutes_until_expiration)
