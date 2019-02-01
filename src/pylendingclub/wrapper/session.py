@@ -22,7 +22,6 @@ class LendingClubSession(Base):
 
     The API resources are available as public properties.
     """
-
     def __init__(self, api_key, investor_id, url=LC_API_URL):
         self._url = url
         self._headers = {'Authorization': api_key}
@@ -70,7 +69,9 @@ class ExtendedLendingClubSession(ExtendedBase):
                       filter_id=None,
                       sort_fields={'loanAmount': True,
                                    'intRate': False,
-                                   'empLength': False}):
+                                   'empLength': False},
+                      listing_filter=None,
+                      remove_owned_notes=True):
 
         listed_loans_response = self.session.loan.listed_loans(filter_id=filter_id)
         listed_loans_data = listed_loans_response.json()
@@ -79,27 +80,34 @@ class ExtendedLendingClubSession(ExtendedBase):
             loans_df = pd.DataFrame(listed_loans_data['loans'])
             loans_df['percentFunded'] = loans_df['fundedAmount']/loans_df['loanAmount']
 
-            if isinstance(sort_fields, dict):
-                fields = []
-                directions = []
-                for field, direction in sort_fields.items():
-                    fields.append(field)
+            if listing_filter is not None:
+                loans_df = listing_filter.filter_listings(loans_df)
 
-                    if isinstance(direction, (bool, int)):
-                        directions.append(bool(direction))
-                    else:
-                        directions.append(False)
+            if remove_owned_notes:
+                loans_df = loans_df[~loans_df['id'].isin(self.owned_loans)]
 
-                    loans_df = loans_df.sort_values(fields, ascending=directions)
+            if loans_df is not None:
+                if isinstance(sort_fields, dict):
+                    fields = []
+                    directions = []
+                    for field, direction in sort_fields.items():
+                        fields.append(field)
 
+                        if isinstance(direction, (bool, int)):
+                            directions.append(bool(direction))
+                        else:
+                            directions.append(False)
+
+                        loans_df = loans_df.sort_values(fields, ascending=directions)
             return loans_df
 
-    """
-    TODO: Create a better way of prioritizing loans. Currently the _listed_loans method
-    would need to be overridden.
-    """
-
-    def invest(self, total_amount=25, amount_per_note=25, filter_id=None, portfolio_id=None):
+    def invest(self,
+               total_amount=25,
+               amount_per_note=25,
+               filter_id=None,
+               portfolio_id=None,
+               listing_filter=None,
+               reinvest_when_owned=False):
         available_cash = self.available_cash(as_string=False)
         if total_amount > available_cash:
             raise AvailableCashError(available_cash, total_amount)
@@ -110,7 +118,10 @@ class ExtendedLendingClubSession(ExtendedBase):
         except ValueError as e:
             raise e
 
-        listed_loans = self._listed_loans(filter_id=filter_id)
+        listed_loans = self._listed_loans(filter_id=filter_id,
+                                          listing_filter=listing_filter,
+                                          remove_owned_notes=not reinvest_when_owned)
+
         if listed_loans is not None:
             orders = [Order(loan_id, amount_per_note, portfolio_id)
                       for loan_id in listed_loans.head(num_notes)['id'].values]
@@ -122,6 +133,13 @@ class ExtendedLendingClubSession(ExtendedBase):
     @property
     def account_summary(self):
         return self._account_summary
+
+    @property
+    def owned_loans(self):
+        try:
+            return list(notes['loanId'].unique())
+        except:
+            return []
 
     def available_cash(self, as_string=True):
         response_value = self._get_response_value(self.session.account.available_cash,
@@ -160,7 +178,7 @@ class ExtendedLendingClubSession(ExtendedBase):
     def filter_id_by_name(self, name):
         return self._filter_id_by_name(name)
 
-    def listed_loans(self, filter_id=None):
+    def listed_loans(self, filter_id=None, listing_filter=None):
         return self._listed_loans(filter_id=filter_id)
 
     def submit_order(self, loan_id, amount, portfolio=None):
