@@ -32,9 +32,9 @@ Overview
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/pylendingclub
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/bbarney213/PyLendingClub/3.0.4.dev2.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/bbarney213/PyLendingClub/v3.0.4.dev5.svg
     :alt: Commits since latest release
-    :target: https://github.com/bbarney213/PyLendingClub/compare/3.0.4.dev2...master
+    :target: https://github.com/bbarney213/PyLendingClub/compare/v3.0.4.dev5...master
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/pylendingclub.svg
     :alt: PyPI Wheel
